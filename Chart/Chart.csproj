@@ -80,5 +80,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PointsGenerator\PointsGenerator.csproj">
+      <Project>{66a7ff9f-5ebd-41fa-be13-d69cb7b2b92f}</Project>
+      <Name>PointsGenerator</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

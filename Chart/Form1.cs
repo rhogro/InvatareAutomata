@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using PointsGenerator;
 
 namespace Chart
 {
@@ -17,16 +18,19 @@ namespace Chart
         public Form1()
         {
             InitializeComponent();
+            ComputePoints compute = new ComputePoints();
+            compute.Compute();
             DrawChart();
         }
 
         private void DrawChart()
         {
             DataTable dt = new DataTable();
-            dt.Columns.Add("X_Value", typeof(double));
-            dt.Columns.Add("Y_Value", typeof(double));
+            dt.Columns.Add("X_Value", typeof(int));
+            dt.Columns.Add("Y_Value", typeof(int));
+            dt.Columns.Add("Zone", typeof(string));
 
-            StreamReader sr = new StreamReader(@"D:\Desktop\points.txt");
+            StreamReader sr = new StreamReader(Directory.GetCurrentDirectory() + @"\points.txt");
             string line;
             while ((line = sr.ReadLine()) != null)
             {
