@@ -17,10 +17,10 @@ namespace PointsGenerator
         {
             zones = new[]
             {
-                new Zone(300, 150, 50, "Zone1"),
-                new Zone(-200, -200, 100, "Zone2"),
-                new Zone(-300, -20, 10, "Zone3"),
-                new Zone(50, -200, 40, "Zone4")
+                new Zone(300, 150, 10, "Zone1"),
+                new Zone(-200, -200, 10, "Zone2"),
+                new Zone(-300, 20, 10, "Zone3"),
+                new Zone(50, -200, 10, "Zone4")
             };
 
             random = new Random();
@@ -37,6 +37,8 @@ namespace PointsGenerator
              * 7. generam un fisier care contine valorile pe x, valorile pe y si zona punctului (10 000 linii)
              */
 
+            File.Delete(Directory.GetCurrentDirectory() + @"\points.txt");
+
             for (int i = 1; i <= 100; i++)
             {
                 int randomZoneIndex = random.Next(0, 4);
@@ -44,15 +46,6 @@ namespace PointsGenerator
                 int coordX = GenerateCoordinate(currentZone.CenterX, currentZone.Deviation);
                 int coordY = GenerateCoordinate(currentZone.CenterY, currentZone.Deviation);
                 WriteToFile(coordX, coordY, currentZone.Name);
-            }
-        }
-
-        private void WriteToFile(int coordX, int coordY, string currentZoneName)
-        {
-            using (StreamWriter file =
-                new StreamWriter( Directory.GetCurrentDirectory() + @"\points.txt", true))
-            {
-                file.WriteLine(coordX + ',' + coordY + ',' + currentZoneName);
             }
         }
 
@@ -72,8 +65,8 @@ namespace PointsGenerator
                 do
                 {
                     p = NextRandomRange(0, 1 + double.Epsilon);
-                } while (p >= 0 && p <= 1);
-            } while (gauss > p);
+                } while (p <= 0 && p >= 1);
+            } while (gauss < p);
 
             return coordinate;
         }
@@ -82,6 +75,15 @@ namespace PointsGenerator
         {
             Random rand = new Random();
             return rand.NextDouble() * (maximum - minimum) + minimum;
+        }
+
+        private void WriteToFile(int coordX, int coordY, string currentZoneName)
+        {
+            using (StreamWriter file =
+                new StreamWriter(Directory.GetCurrentDirectory() + @"\points.txt", true))
+            {
+                file.WriteLine(coordX.ToString() + ',' + coordY + ',' + currentZoneName);
+            }
         }
     }
 }
