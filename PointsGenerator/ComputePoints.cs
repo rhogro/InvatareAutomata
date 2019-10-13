@@ -10,20 +10,20 @@ namespace PointsGenerator
 {
     public class ComputePoints
     {
-        private Zone[] zones;
-        private Random random;
+        public Zone[] Zones { get; set; }
+        private readonly Random _random;
 
         public ComputePoints()
         {
-            zones = new[]
+            Zones = new[]
             {
                 new Zone(300, 150, 10, "Zone1"),
-                new Zone(-200, -200, 10, "Zone2"),
-                new Zone(-300, 20, 10, "Zone3"),
-                new Zone(50, -200, 10, "Zone4")
+                new Zone(-200, -200, 50, "Zone2"),
+                new Zone(-300, 20, 30, "Zone3"),
+                new Zone(50, -200, 40, "Zone4")
             };
 
-            random = new Random();
+            _random = new Random();
         }
         public void Compute()
         {
@@ -39,10 +39,10 @@ namespace PointsGenerator
 
             File.Delete(Directory.GetCurrentDirectory() + @"\points.txt");
 
-            for (int i = 1; i <= 100; i++)
+            for (int i = 1; i <= 10000; i++)
             {
-                int randomZoneIndex = random.Next(0, 4);
-                Zone currentZone = zones[randomZoneIndex];
+                int randomZoneIndex = _random.Next(0, 4);
+                Zone currentZone = Zones[randomZoneIndex];
                 int coordX = GenerateCoordinate(currentZone.CenterX, currentZone.Deviation);
                 int coordY = GenerateCoordinate(currentZone.CenterY, currentZone.Deviation);
                 WriteToFile(coordX, coordY, currentZone.Name);
@@ -57,8 +57,11 @@ namespace PointsGenerator
 
             do
             {
-                coordinate = random.Next(-400, 401);
-                double fraction = ((zoneCenterCoordinate - coordinate) ^ 2) / (double) (2 * (deviation ^ 2));
+                coordinate = _random.Next(-400, 401);
+                double impartitor = Math.Pow(zoneCenterCoordinate - coordinate, 2);
+                double deImpartit = 2 * Math.Pow(deviation, 2);
+                double fraction = impartitor / deImpartit;
+                //double fraction = ((zoneCenterCoordinate - coordinate) ^ 2) / (double) (2 * (deviation ^ 2));
                 fraction = fraction * -1;
 
                 gauss = Math.Exp(fraction);
