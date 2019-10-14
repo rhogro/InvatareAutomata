@@ -26,7 +26,6 @@ namespace Chart
             Console.WriteLine("Points computed, drawing chart...");
             DrawChart();
             Console.WriteLine("Chart drawn");
-            chart1.PostPaint += PostPaint;
         }
 
         private void DrawChart()
@@ -46,9 +45,21 @@ namespace Chart
 
             sr.Close();
 
-            var zones = dt.AsEnumerable().Select(r => r.Field<string>("Zone")).Distinct().ToList();
+            List<string> zones = dt.AsEnumerable().Select(r => r.Field<string>("Zone")).Distinct().ToList();
 
             chart1.DataSource = dt;
+
+            Color[] colors = new[]
+            {
+                Color.Red, Color.Blue, Color.Green, Color.Pink, Color.Brown, Color.Orange
+            };
+            Dictionary<string, Color> zoneColors = new Dictionary<string, Color>();
+
+            for (int i = 0; i < zones.Count; i++)
+            {
+                zoneColors.Add(zones[i], colors[i]);
+            }
+            
 
             foreach (var zoneName in zones)
             {
@@ -57,6 +68,7 @@ namespace Chart
 
                 chart1.Series.Add(zoneName);
                 chart1.Series[zoneName].ChartType = SeriesChartType.Point;
+                chart1.Series[zoneName].Color = zoneColors[zoneName];
 
                 foreach (DataRow dataRow in dt.Rows)
                 {
@@ -83,6 +95,7 @@ namespace Chart
                     throw new InvalidOperationException();
                 }
 
+                /**** Zones delimiters ****/
                 Series series1 = new Series(zoneName + "Rectangle");
 
                 var zone = this.zones.First(z => z.Name == zoneName);
@@ -113,17 +126,8 @@ namespace Chart
             chart1.ChartAreas[0].AxisX.Maximum = 400d;
             chart1.ChartAreas[0].AxisY.Minimum = -400d;
             chart1.ChartAreas[0].AxisY.Maximum = 400d;
-        }
 
-        private void PostPaint(object sender, ChartPaintEventArgs e)
-        {
-            //foreach (var zone in zones)
-            //{
-            //    Rectangle rectangle = new Rectangle(zone.CenterX + chart1.Location.X + chart1.Width/2 -zone.Deviation/2, zone.CenterY + chart1.Location.Y + chart1.Height / 2 - zone.Deviation/2, zone.Deviation, zone.Deviation);
-            //    e.ChartGraphics.Graphics.DrawRectangle(new Pen(Color.Red, 1), rectangle);
-            //}
-
-            Console.WriteLine(chart1.Location);
+            sr.Close();
         }
     }
 }

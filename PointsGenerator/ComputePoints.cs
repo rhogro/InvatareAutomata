@@ -12,15 +12,16 @@ namespace PointsGenerator
     {
         public Zone[] Zones { get; set; }
         private readonly Random _random;
+        private readonly int _totalPoints = 10000;
 
         public ComputePoints()
         {
             Zones = new[]
             {
                 new Zone(300, 150, 10, "Zone1"),
-                new Zone(-200, -200, 50, "Zone2"),
-                new Zone(-300, 20, 30, "Zone3"),
-                new Zone(50, -200, 40, "Zone4")
+                new Zone(-200, -200, 5, "Zone2"),
+                new Zone(-300, 20, 10, "Zone3"),
+                new Zone(50, -200, 4, "Zone4")
             };
 
             _random = new Random();
@@ -38,15 +39,18 @@ namespace PointsGenerator
              */
 
             File.Delete(Directory.GetCurrentDirectory() + @"\points.txt");
+            StreamWriter sw =
+                new StreamWriter(Directory.GetCurrentDirectory() + @"\points.txt", true);
 
-            for (int i = 1; i <= 10000; i++)
+            for (int i = 1; i <= _totalPoints; i++)
             {
                 int randomZoneIndex = _random.Next(0, 4);
                 Zone currentZone = Zones[randomZoneIndex];
                 int coordX = GenerateCoordinate(currentZone.CenterX, currentZone.Deviation);
                 int coordY = GenerateCoordinate(currentZone.CenterY, currentZone.Deviation);
-                WriteToFile(coordX, coordY, currentZone.Name);
+                WriteToFile(sw, coordX, coordY, currentZone.Name);
             }
+            sw.Close();
         }
 
         private int GenerateCoordinate(int zoneCenterCoordinate, int deviation)
@@ -61,32 +65,30 @@ namespace PointsGenerator
                 double impartitor = Math.Pow(zoneCenterCoordinate - coordinate, 2);
                 double deImpartit = 2 * Math.Pow(deviation, 2);
                 double fraction = impartitor / deImpartit;
-                //double fraction = ((zoneCenterCoordinate - coordinate) ^ 2) / (double) (2 * (deviation ^ 2));
                 fraction = fraction * -1;
 
                 gauss = Math.Exp(fraction);
                 do
                 {
-                    p = NextRandomRange(0, 1 + double.Epsilon);
+                    p = NextRandomRange();
                 } while (p <= 0 && p >= 1);
-            } while (gauss < p);
+            } while (gauss <= p);
 
             return coordinate;
         }
 
-        private double NextRandomRange(double minimum, double maximum)
+        private double NextRandomRange()//double minimum, double maximum)
         {
-            Random rand = new Random();
-            return rand.NextDouble() * (maximum - minimum) + minimum;
+            //double r = _random.NextDouble() * (maximum - minimum) + minimum;
+            //return r;
+            int r = _random.Next(0, 60001);
+            double ret = r / 60000.0;
+            return ret;
         }
 
-        private void WriteToFile(int coordX, int coordY, string currentZoneName)
+        private void WriteToFile(StreamWriter sw, int coordX, int coordY, string currentZoneName)
         {
-            using (StreamWriter file =
-                new StreamWriter(Directory.GetCurrentDirectory() + @"\points.txt", true))
-            {
-                file.WriteLine(coordX.ToString() + ',' + coordY + ',' + currentZoneName);
-            }
+            sw.WriteLine(coordX.ToString() + ',' + coordY + ',' + currentZoneName);
         }
     }
 }

@@ -44,16 +44,15 @@
             this.chart1.Location = new System.Drawing.Point(0, 0);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Berry;
-            this.chart1.Size = new System.Drawing.Size(794, 771);
+            this.chart1.Size = new System.Drawing.Size(794, 749);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
-            this.chart1.PostPaint += new System.EventHandler<System.Windows.Forms.DataVisualization.Charting.ChartPaintEventArgs>(this.PostPaint);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(794, 771);
+            this.ClientSize = new System.Drawing.Size(794, 749);
             this.Controls.Add(this.chart1);
             this.Name = "Form1";
             this.Text = "Form1";
