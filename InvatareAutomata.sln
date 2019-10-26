@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chart", "Chart\Chart.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointsGenerator", "PointsGenerator\PointsGenerator.csproj", "{66A7FF9F-5EBD-41FA-BE13-D69CB7B2B92F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KMeans", "KMeans\KMeans.csproj", "{51511CB7-36EF-4370-9920-433FB9561101}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PredictedPoints", "PredictedPoints\PredictedPoints.csproj", "{ED0FD432-783C-476F-B6C1-60ACA3DC2E05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{66A7FF9F-5EBD-41FA-BE13-D69CB7B2B92F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66A7FF9F-5EBD-41FA-BE13-D69CB7B2B92F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66A7FF9F-5EBD-41FA-BE13-D69CB7B2B92F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51511CB7-36EF-4370-9920-433FB9561101}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51511CB7-36EF-4370-9920-433FB9561101}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51511CB7-36EF-4370-9920-433FB9561101}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51511CB7-36EF-4370-9920-433FB9561101}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED0FD432-783C-476F-B6C1-60ACA3DC2E05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED0FD432-783C-476F-B6C1-60ACA3DC2E05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED0FD432-783C-476F-B6C1-60ACA3DC2E05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED0FD432-783C-476F-B6C1-60ACA3DC2E05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

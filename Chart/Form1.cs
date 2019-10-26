@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using PointsGenerator;
@@ -23,9 +20,7 @@ namespace Chart
             ComputePoints compute = new ComputePoints();
             compute.Compute();
             zones = compute.Zones;
-            Console.WriteLine("Points computed, drawing chart...");
             DrawChart();
-            Console.WriteLine("Chart drawn");
         }
 
         private void DrawChart()
@@ -49,8 +44,7 @@ namespace Chart
 
             chart1.DataSource = dt;
 
-            Color[] colors = new[]
-            {
+            Color[] colors = {
                 Color.Red, Color.Blue, Color.Green, Color.Pink, Color.Brown, Color.Orange
             };
             Dictionary<string, Color> zoneColors = new Dictionary<string, Color>();
@@ -128,6 +122,12 @@ namespace Chart
             chart1.ChartAreas[0].AxisY.Maximum = 400d;
 
             sr.Close();
+        }
+
+        private void predict_Click(object sender, EventArgs e)
+        {
+            PredictedPoints.Form1 predictedPointsFrom = new PredictedPoints.Form1();
+            predictedPointsFrom.Show();
         }
     }
 }
