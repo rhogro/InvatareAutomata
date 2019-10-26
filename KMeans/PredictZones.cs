@@ -11,20 +11,19 @@ namespace KMeans
     public class PredictZones
     {
         private readonly Random _random;
-        private readonly int _centroidsNumber;
+        private const int CentroidsNumber = 5;
         private readonly Centroid[] _centroids;
-        private const double TOLERANCE = 0.000001d;
-        private const int MAX_RUNS = 20;
-        private StreamWriter sw;
+        private const double Tolerance = 0.000001d;
+        private const int MaxRuns = 20;
+        private readonly StreamWriter _sw;
 
         public PredictZones()
         {
             _random = new Random();
             //centroidNumber = random.Next(2, 11);
-            _centroidsNumber = 5;
-            _centroids = new Centroid[_centroidsNumber];
+            _centroids = new Centroid[CentroidsNumber];
             File.Delete(Directory.GetCurrentDirectory() + @"\prediceted_points.txt");
-            sw =
+            _sw =
                 new StreamWriter(Directory.GetCurrentDirectory() + @"\prediceted_points.txt", true);
         }
 
@@ -32,14 +31,14 @@ namespace KMeans
         {
             double evaluation = double.MaxValue;
             int run = 1;
-            for (int i = 0; i < _centroidsNumber; i++)
+            for (int i = 0; i < CentroidsNumber; i++)
             {
                 _centroids[i] = new Centroid(_random.Next(-400, 401), _random.Next(-400, 401), "Centroid" + (i+1));
             }
 
             List<Point> points = GetPoints();
             int ct = 1;
-            while (ct++ <= MAX_RUNS)
+            while (ct++ <= MaxRuns)
             {
                 foreach (var point in points)
                 {
@@ -55,9 +54,8 @@ namespace KMeans
                 }
 
                 double newEvaluation = ComputeEvaluation();
-                Console.WriteLine(newEvaluation);
                 WriteToFile(run, newEvaluation);
-                if (Math.Abs(evaluation - newEvaluation) < TOLERANCE)
+                if (Math.Abs(evaluation - newEvaluation) < Tolerance)
                 {
                     break;
                 }
@@ -66,7 +64,7 @@ namespace KMeans
                 run++;
                 RemovePointsFromCentroids();
             }
-            sw.Close();
+            _sw.Close();
         }
 
         private void RemovePointsFromCentroids()
@@ -83,7 +81,7 @@ namespace KMeans
             {
                 foreach (var assignedPoint in centroid.AssignedPoints)
                 {
-                    sw.WriteLine(assignedPoint.X + "," + 
+                    _sw.WriteLine(assignedPoint.X + "," + 
                                  assignedPoint.Y + "," + centroid.Name + "," + run + "," + evaluation);
                 }
             }
@@ -139,7 +137,10 @@ namespace KMeans
         private double ComputeDistance(Point centroidCenter, Point point)
         {
             //euclidean distance
-            return (Math.Sqrt(Math.Pow(Math.Abs(centroidCenter.X - point.X), 2) + Math.Pow(Math.Abs(centroidCenter.Y - point.Y), 2)));
+            //return (Math.Sqrt(Math.Pow(Math.Abs(centroidCenter.X - point.X), 2) + Math.Pow(Math.Abs(centroidCenter.Y - point.Y), 2)));
+
+            //manhattan distance
+            return (Math.Abs(centroidCenter.X - point.X) + Math.Abs(centroidCenter.Y - point.Y));
         }
 
         private List<Point> GetPoints()
