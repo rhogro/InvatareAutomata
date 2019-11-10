@@ -33,7 +33,7 @@ namespace KMeans
             int run = 1;
             for (int i = 0; i < CentroidsNumber; i++)
             {
-                _centroids[i] = new Centroid(_random.Next(-400, 401), _random.Next(-400, 401), "Centroid" + (i+1));
+                _centroids[i] = new Centroid(_random.Next(-400, 401), _random.Next(-400, 401), "Centroid" + (i + 1));
             }
 
             List<Point> points = GetPoints();
@@ -51,12 +51,20 @@ namespace KMeans
                     {
                         MoveToCenterOfItsPoints(centroid);
                     }
+                    else
+                    {
+                        //centroid.Center = new Point(_random.Next(-400, 401), _random.Next(-401));
+                    }
                 }
 
                 double newEvaluation = ComputeEvaluation();
                 WriteToFile(run, newEvaluation);
                 if (Math.Abs(evaluation - newEvaluation) < Tolerance)
                 {
+                    foreach (var centroid in _centroids)
+                    {
+                        Console.WriteLine("{0} - x: {1}, y: {2}", centroid.Name, centroid.Center.X, centroid.Center.Y);
+                    }
                     break;
                 }
 
@@ -81,8 +89,10 @@ namespace KMeans
             {
                 foreach (var assignedPoint in centroid.AssignedPoints)
                 {
-                    _sw.WriteLine(assignedPoint.X + "," + 
-                                 assignedPoint.Y + "," + centroid.Name + "," + run + "," + evaluation);
+                    _sw.WriteLine(assignedPoint.X + "," +
+                                 assignedPoint.Y + "," + centroid.Name + 
+                                 "," + centroid.Center.X + "," + centroid.Center.Y + 
+                                 "," + run + "," + evaluation);
                 }
             }
 
@@ -137,10 +147,10 @@ namespace KMeans
         private double ComputeDistance(Point centroidCenter, Point point)
         {
             //euclidean distance
-            //return (Math.Sqrt(Math.Pow(Math.Abs(centroidCenter.X - point.X), 2) + Math.Pow(Math.Abs(centroidCenter.Y - point.Y), 2)));
+            return (Math.Sqrt(Math.Pow(Math.Abs(centroidCenter.X - point.X), 2) + Math.Pow(Math.Abs(centroidCenter.Y - point.Y), 2)));
 
             //manhattan distance
-            return (Math.Abs(centroidCenter.X - point.X) + Math.Abs(centroidCenter.Y - point.Y));
+            //return (Math.Abs(centroidCenter.X - point.X) + Math.Abs(centroidCenter.Y - point.Y));
         }
 
         private List<Point> GetPoints()
@@ -171,5 +181,38 @@ namespace KMeans
 
             return points;
         }
+
+        public void AssignAllPoints()
+        {
+            List<Point> allPoints = new List<Point>();
+            for (int i = (-400); i <= 400; i += 2)
+            {
+                for (int j = (-400); j <= 400; j += 2)
+                {
+                    allPoints.Add(new Point(i, j));
+                }
+            }
+
+            foreach (Point point in allPoints)
+            {
+                AssignPointToCentroid(point);
+            }
+
+            File.Delete(Directory.GetCurrentDirectory() + @"\all_points.txt");
+
+            StreamWriter sw =
+                new StreamWriter(Directory.GetCurrentDirectory() + @"\all_points.txt", true);
+
+            foreach (var centroid in _centroids)
+            {
+                foreach (var assignedPoint in centroid.AssignedPoints)
+                {
+                    sw.WriteLine(assignedPoint.X + "," + assignedPoint.Y + 
+                                  "," + centroid.Name + "," + centroid.Center.X + "," + centroid.Center.Y + ",1,0");
+                }
+            }
+            sw.Close();
+        }
+
     }
 }

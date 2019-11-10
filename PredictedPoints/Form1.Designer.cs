@@ -28,15 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.nextRun = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.previousRun = new System.Windows.Forms.Button();
-            this.runLabel = new System.Windows.Forms.Label();
             this.evaluationLabel = new System.Windows.Forms.Label();
+            this.runLabel = new System.Windows.Forms.Label();
+            this.previousRun = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.assignAllButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -44,11 +45,11 @@
             // 
             // chart1
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
             this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(0, 0);
             this.chart1.Name = "chart1";
             this.chart1.Size = new System.Drawing.Size(940, 559);
@@ -67,6 +68,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.assignAllButton);
             this.panel1.Controls.Add(this.evaluationLabel);
             this.panel1.Controls.Add(this.runLabel);
             this.panel1.Controls.Add(this.previousRun);
@@ -77,14 +79,25 @@
             this.panel1.Size = new System.Drawing.Size(940, 31);
             this.panel1.TabIndex = 2;
             // 
-            // panel2
+            // evaluationLabel
             // 
-            this.panel2.Controls.Add(this.chart1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 31);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(940, 559);
-            this.panel2.TabIndex = 3;
+            this.evaluationLabel.AutoSize = true;
+            this.evaluationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.evaluationLabel.Location = new System.Drawing.Point(307, 6);
+            this.evaluationLabel.Name = "evaluationLabel";
+            this.evaluationLabel.Size = new System.Drawing.Size(105, 20);
+            this.evaluationLabel.TabIndex = 3;
+            this.evaluationLabel.Text = "Evaluation: 0";
+            // 
+            // runLabel
+            // 
+            this.runLabel.AutoSize = true;
+            this.runLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.runLabel.Location = new System.Drawing.Point(207, 6);
+            this.runLabel.Name = "runLabel";
+            this.runLabel.Size = new System.Drawing.Size(58, 20);
+            this.runLabel.TabIndex = 2;
+            this.runLabel.Text = "Run: 1";
             // 
             // previousRun
             // 
@@ -97,25 +110,24 @@
             this.previousRun.UseVisualStyleBackColor = true;
             this.previousRun.Click += new System.EventHandler(this.previousRun_Click);
             // 
-            // runLabel
+            // panel2
             // 
-            this.runLabel.AutoSize = true;
-            this.runLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.runLabel.Location = new System.Drawing.Point(207, 6);
-            this.runLabel.Name = "runLabel";
-            this.runLabel.Size = new System.Drawing.Size(58, 20);
-            this.runLabel.TabIndex = 2;
-            this.runLabel.Text = "Run: 1";
+            this.panel2.Controls.Add(this.chart1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 31);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(940, 559);
+            this.panel2.TabIndex = 3;
             // 
-            // evaluationLabel
+            // assignAllButton
             // 
-            this.evaluationLabel.AutoSize = true;
-            this.evaluationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.evaluationLabel.Location = new System.Drawing.Point(307, 6);
-            this.evaluationLabel.Name = "evaluationLabel";
-            this.evaluationLabel.Size = new System.Drawing.Size(105, 20);
-            this.evaluationLabel.TabIndex = 3;
-            this.evaluationLabel.Text = "Evaluation: 0";
+            this.assignAllButton.Location = new System.Drawing.Point(776, 3);
+            this.assignAllButton.Name = "assignAllButton";
+            this.assignAllButton.Size = new System.Drawing.Size(151, 23);
+            this.assignAllButton.TabIndex = 4;
+            this.assignAllButton.Text = "Assign all points to centroids";
+            this.assignAllButton.UseVisualStyleBackColor = true;
+            this.assignAllButton.Click += new System.EventHandler(this.assignAllButton_Click);
             // 
             // Form1
             // 
@@ -143,6 +155,7 @@
         private System.Windows.Forms.Button previousRun;
         private System.Windows.Forms.Label runLabel;
         private System.Windows.Forms.Label evaluationLabel;
+        private System.Windows.Forms.Button assignAllButton;
     }
 }
 

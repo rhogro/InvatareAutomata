@@ -15,32 +15,37 @@ namespace PredictedPoints
 {
     public partial class Form1 : Form
     {
+        private PredictZones zonesPredictor;
         private int run = 1;
         private DataTable dt = new DataTable();
-        private List<string> zones;
+        //private List<string> centroidNames;
+        private List<Centroid> centroids;
         private double evaluation = 0;
         public Form1()
         {
             InitializeComponent();
-            PredictZones zonesPredictor = new PredictZones();
+            zonesPredictor = new PredictZones();
+            centroids = new List<Centroid>();
             zonesPredictor.Predict();
-            DrawChart();
+            DrawChart("prediceted_points.txt");
         }
 
-        private void DrawChart()
+        private void DrawChart(string file)
         {
             dt.Columns.Add("X_Value", typeof(int));
             dt.Columns.Add("Y_Value", typeof(int));
-            dt.Columns.Add("Zone_Name", typeof(string));
+            dt.Columns.Add("Centroid_Name", typeof(string));
+            dt.Columns.Add("Centroid_X_Value", typeof(int));
+            dt.Columns.Add("Centroid_Y_Value", typeof(int));
             dt.Columns.Add("Run", typeof(int));
             dt.Columns.Add("Evaluation", typeof(double));
 
-            StreamReader sr = new StreamReader(Directory.GetCurrentDirectory() + @"\prediceted_points.txt");
+            StreamReader sr = new StreamReader(Directory.GetCurrentDirectory() + @"\" + file);
             string line;
             while ((line = sr.ReadLine()) != null)
             {
                 string[] strarr = line.Split(',');
-                dt.Rows.Add(strarr[0], strarr[1], strarr[2], strarr[3], strarr[4]);
+                dt.Rows.Add(strarr[0], strarr[1], strarr[2], strarr[3], strarr[4], strarr[5], strarr[6]);
             }
             sr.Close();
 
@@ -64,32 +69,48 @@ namespace PredictedPoints
 
         private void AssignValuesToChart()
         {
-            zones = dt.AsEnumerable().Select(r => r.Field<string>("Zone_Name")).Distinct().ToList();
+            foreach (DataRow row in dt.Rows)
+            {
+                if (!centroids.Any(x => x.Name == row.Field<string>("Centroid_Name")))
+                {
+                    centroids.Add(new Centroid(row.Field<int>("Centroid_X_Value"), row.Field<int>("Centroid_Y_Value"), row.Field<string>("Centroid_Name")));
+                }
+            }
 
             Color[] colors = {
                 Color.Red, Color.Blue, Color.Green, Color.Cyan, Color.Brown, Color.Orange, Color.Magenta
             };
             Dictionary<string, Color> zoneColors = new Dictionary<string, Color>();
 
-            for (int i = 0; i < zones.Count; i++)
+            for (int i = 0; i < centroids.Count; i++)
             {
-                zoneColors.Add(zones[i], colors[i]);
+                zoneColors.Add(centroids[i].Name, colors[i]);
             }
 
-            foreach (var zoneName in zones)
+            foreach (var centroid in centroids)
             {
                 List<int> xVals = new List<int>();
                 List<int> yVals = new List<int>();
 
-                chart1.Series.Add(zoneName);
-                chart1.Series[zoneName].ChartType = SeriesChartType.Point;
-                chart1.Series[zoneName].Color = zoneColors[zoneName];
+                List<int> centroidXVals = new List<int>();
+                List<int> centroidYVals = new List<int>();
+
+                chart1.Series.Add(centroid.Name + " Points");
+                chart1.Series[centroid.Name + " Points"].ChartType = SeriesChartType.Point;
+                chart1.Series[centroid.Name + " Points"].MarkerStyle = MarkerStyle.Square;
+                chart1.Series[centroid.Name + " Points"].Color = zoneColors[centroid.Name];
+
+                chart1.Series.Add(centroid.Name);
+                chart1.Series[centroid.Name].ChartType = SeriesChartType.Point;
+                chart1.Series[centroid.Name].MarkerStyle = MarkerStyle.Cross;
+                chart1.Series[centroid.Name].MarkerSize = 10;
+                chart1.Series[centroid.Name].Color = ControlPaint.Dark(zoneColors[centroid.Name], 0.25f);
 
                 foreach (DataRow dataRow in dt.Rows)
                 {
                     try
                     {
-                        if (String.Equals(zoneName, dataRow["Zone_Name"].ToString(), StringComparison.Ordinal) &&
+                        if (String.Equals(centroid.Name, dataRow["Centroid_Name"].ToString(), StringComparison.Ordinal) &&
                             (int)dataRow["run"] == run)
                         {
                             xVals.Add((int)dataRow["X_Value"]);
@@ -103,9 +124,13 @@ namespace PredictedPoints
                     }
                 }
 
+                centroidXVals.Add(centroid.Center.X);
+                centroidYVals.Add(centroid.Center.Y);
+
                 try
                 {
-                    chart1.Series[zoneName].Points.DataBindXY(xVals, yVals);
+                    chart1.Series[centroid.Name + " Points"].Points.DataBindXY(xVals, yVals);
+                    chart1.Series[centroid.Name].Points.DataBindXY(centroidXVals, centroidYVals);
                 }
                 catch (Exception)
                 {
@@ -140,11 +165,40 @@ namespace PredictedPoints
 
         private void CleanChart()
         {
-            foreach (var zoneName in zones)
-            {
-                chart1.Series.Remove(chart1.Series[zoneName]);
-            }
+            chart1.Series.Clear();
         }
 
+        private bool assignAllButtonToggled = false;
+
+        private void assignAllButton_Click(object sender, EventArgs e)
+        {
+            if (assignAllButtonToggled == false)
+            {
+                assignAllButton.Text = "Please Wait";
+                assignAllButton.Enabled = false;
+                CleanChart();
+                dt.Rows.Clear();
+                dt.Columns.Clear();
+                zonesPredictor.AssignAllPoints();
+                run = 1;
+                DrawChart("all_points.txt");
+                assignAllButtonToggled = true;
+                assignAllButton.Text = "Show zones";
+                assignAllButton.Enabled = true;
+            }
+            else
+            {
+                assignAllButton.Text = "Please Wait";
+                assignAllButton.Enabled = false;
+                CleanChart();
+                dt.Rows.Clear();
+                dt.Columns.Clear();
+                DrawChart("prediceted_points.txt");
+                assignAllButtonToggled = false;
+                assignAllButton.Enabled = true;
+                assignAllButton.Text = "Assign all points to centroids";
+            }
+
+        }
     }
 }

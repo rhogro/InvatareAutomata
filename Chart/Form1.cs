@@ -62,6 +62,7 @@ namespace Chart
 
                 chart1.Series.Add(zoneName);
                 chart1.Series[zoneName].ChartType = SeriesChartType.Point;
+                chart1.Series[zoneName].MarkerStyle = MarkerStyle.Square;
                 chart1.Series[zoneName].Color = zoneColors[zoneName];
 
                 foreach (DataRow dataRow in dt.Rows)
