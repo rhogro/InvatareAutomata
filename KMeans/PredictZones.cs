@@ -53,7 +53,7 @@ namespace KMeans
                     }
                     else
                     {
-                        //centroid.Center = new Point(_random.Next(-400, 401), _random.Next(-401));
+                        centroid.Center = new Point(_random.Next(-400, 401), _random.Next(-400, 401));
                     }
                 }
 

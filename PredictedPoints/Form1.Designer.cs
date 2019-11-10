@@ -33,11 +33,11 @@
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.nextRun = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.assignAllButton = new System.Windows.Forms.Button();
             this.evaluationLabel = new System.Windows.Forms.Label();
             this.runLabel = new System.Windows.Forms.Label();
             this.previousRun = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.assignAllButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -58,7 +58,7 @@
             // 
             // nextRun
             // 
-            this.nextRun.Location = new System.Drawing.Point(23, 3);
+            this.nextRun.Location = new System.Drawing.Point(100, 3);
             this.nextRun.Name = "nextRun";
             this.nextRun.Size = new System.Drawing.Size(75, 23);
             this.nextRun.TabIndex = 0;
@@ -78,6 +78,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(940, 31);
             this.panel1.TabIndex = 2;
+            // 
+            // assignAllButton
+            // 
+            this.assignAllButton.Location = new System.Drawing.Point(776, 3);
+            this.assignAllButton.Name = "assignAllButton";
+            this.assignAllButton.Size = new System.Drawing.Size(151, 23);
+            this.assignAllButton.TabIndex = 4;
+            this.assignAllButton.Text = "Assign all points to centroids";
+            this.assignAllButton.UseVisualStyleBackColor = true;
+            this.assignAllButton.Click += new System.EventHandler(this.assignAllButton_Click);
             // 
             // evaluationLabel
             // 
@@ -102,7 +112,7 @@
             // previousRun
             // 
             this.previousRun.Enabled = false;
-            this.previousRun.Location = new System.Drawing.Point(104, 3);
+            this.previousRun.Location = new System.Drawing.Point(12, 3);
             this.previousRun.Name = "previousRun";
             this.previousRun.Size = new System.Drawing.Size(82, 23);
             this.previousRun.TabIndex = 1;
@@ -118,16 +128,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(940, 559);
             this.panel2.TabIndex = 3;
-            // 
-            // assignAllButton
-            // 
-            this.assignAllButton.Location = new System.Drawing.Point(776, 3);
-            this.assignAllButton.Name = "assignAllButton";
-            this.assignAllButton.Size = new System.Drawing.Size(151, 23);
-            this.assignAllButton.TabIndex = 4;
-            this.assignAllButton.Text = "Assign all points to centroids";
-            this.assignAllButton.UseVisualStyleBackColor = true;
-            this.assignAllButton.Click += new System.EventHandler(this.assignAllButton_Click);
             // 
             // Form1
             // 
