@@ -11,16 +11,16 @@ namespace KMeans
     public class PredictZones
     {
         private readonly Random _random;
-        private const int CentroidsNumber = 5;
+        private int CentroidsNumber = 5;
         private readonly Centroid[] _centroids;
-        private const double Tolerance = 0.000001d;
-        private const int MaxRuns = 20;
+        private const double Tolerance = 0.000001;
+        private const int MaxRuns = 30;
         private readonly StreamWriter _sw;
 
         public PredictZones()
         {
             _random = new Random();
-            //centroidNumber = random.Next(2, 11);
+            //CentroidsNumber = random.Next(2, 11);
             _centroids = new Centroid[CentroidsNumber];
             File.Delete(Directory.GetCurrentDirectory() + @"\prediceted_points.txt");
             _sw =
@@ -59,7 +59,7 @@ namespace KMeans
 
                 double newEvaluation = ComputeEvaluation();
                 WriteToFile(run, newEvaluation);
-                if (Math.Abs(evaluation - newEvaluation) < Tolerance)
+                if (Math.Abs(evaluation - newEvaluation) < Tolerance && EveryCentroidHasPoints())
                 {
                     foreach (var centroid in _centroids)
                     {
@@ -73,6 +73,19 @@ namespace KMeans
                 RemovePointsFromCentroids();
             }
             _sw.Close();
+        }
+
+        private bool EveryCentroidHasPoints()
+        {
+            foreach (var centroid in _centroids)
+            {
+                if (centroid.AssignedPoints.Count == 0)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private void RemovePointsFromCentroids()

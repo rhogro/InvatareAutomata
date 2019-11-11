@@ -18,9 +18,9 @@ namespace PredictedPoints
         private PredictZones zonesPredictor;
         private int run = 1;
         private DataTable dt = new DataTable();
-        //private List<string> centroidNames;
         private List<Centroid> centroids;
         private double evaluation = 0;
+        private bool ShowCentroids = true;
         public Form1()
         {
             InitializeComponent();
@@ -181,10 +181,14 @@ namespace PredictedPoints
                 dt.Columns.Clear();
                 zonesPredictor.AssignAllPoints();
                 run = 1;
+                runLabel.Text = "Run: 1";
+                evaluationLabel.Text = "";
                 DrawChart("all_points.txt");
                 assignAllButtonToggled = true;
                 assignAllButton.Text = "Show zones";
                 assignAllButton.Enabled = true;
+                nextRun.Enabled = false;
+                previousRun.Enabled = false;
             }
             else
             {
@@ -197,8 +201,33 @@ namespace PredictedPoints
                 assignAllButtonToggled = false;
                 assignAllButton.Enabled = true;
                 assignAllButton.Text = "Assign all points to centroids";
+                nextRun.Enabled = true;
+                previousRun.Enabled = true;
+                evaluationLabel.Text = "Evaluation: " + evaluation;
             }
 
+        }
+
+        private void showHideCentroidsButton_Click(object sender, EventArgs e)
+        {
+            if (ShowCentroids)
+            {
+                ShowCentroids = false;
+                showHideCentroidsButton.Text = "Show Centroids";
+                foreach (var centroid in centroids)
+                {
+                    chart1.Series[centroid.Name].Enabled = false;
+                }
+            }
+            else
+            {
+                ShowCentroids = true;
+                showHideCentroidsButton.Text = "Hide Centroids";
+                foreach (var centroid in centroids)
+                {
+                    chart1.Series[centroid.Name].Enabled = true;
+                }
+            }
         }
     }
 }
