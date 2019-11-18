@@ -130,5 +130,11 @@ namespace Chart
             PredictedPoints.Form1 predictedPointsFrom = new PredictedPoints.Form1();
             predictedPointsFrom.Show();
         }
+
+        private void SOMPredictButton_Click(object sender, EventArgs e)
+        {
+            SOMPredictedPoints.Form1  SOMPredictedPointsForm = new SOMPredictedPoints.Form1();
+            SOMPredictedPointsForm.Show();
+        }
     }
 }

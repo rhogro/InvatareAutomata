@@ -34,6 +34,7 @@
             this.predict = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.SOMPredictButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -57,14 +58,15 @@
             // 
             this.predict.Location = new System.Drawing.Point(3, 3);
             this.predict.Name = "predict";
-            this.predict.Size = new System.Drawing.Size(85, 23);
+            this.predict.Size = new System.Drawing.Size(127, 23);
             this.predict.TabIndex = 1;
-            this.predict.Text = "Predict";
+            this.predict.Text = "Predict K-Means";
             this.predict.UseVisualStyleBackColor = true;
             this.predict.Click += new System.EventHandler(this.predict_Click);
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.SOMPredictButton);
             this.panel1.Controls.Add(this.predict);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -80,6 +82,16 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(794, 718);
             this.panel2.TabIndex = 3;
+            // 
+            // SOMPredictButton
+            // 
+            this.SOMPredictButton.Location = new System.Drawing.Point(136, 3);
+            this.SOMPredictButton.Name = "SOMPredictButton";
+            this.SOMPredictButton.Size = new System.Drawing.Size(94, 23);
+            this.SOMPredictButton.TabIndex = 2;
+            this.SOMPredictButton.Text = "Predict SOM";
+            this.SOMPredictButton.UseVisualStyleBackColor = true;
+            this.SOMPredictButton.Click += new System.EventHandler(this.SOMPredictButton_Click);
             // 
             // Form1
             // 
@@ -103,6 +115,7 @@
         private System.Windows.Forms.Button predict;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button SOMPredictButton;
     }
 }
 

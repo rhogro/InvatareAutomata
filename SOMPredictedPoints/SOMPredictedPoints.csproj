@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5048B9DC-D273-4D23-87F9-00B90F342C06}</ProjectGuid>
+    <ProjectGuid>{FA83D183-9999-4BD3-BD23-4448F8C10FB9}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Chart</RootNamespace>
-    <AssemblyName>Chart</AssemblyName>
+    <RootNamespace>SOMPredictedPoints</RootNamespace>
+    <AssemblyName>SOMPredictedPoints</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -81,17 +81,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PointsGenerator\PointsGenerator.csproj">
-      <Project>{66a7ff9f-5ebd-41fa-be13-d69cb7b2b92f}</Project>
-      <Name>PointsGenerator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PredictedPoints\PredictedPoints.csproj">
-      <Project>{ed0fd432-783c-476f-b6c1-60aca3dc2e05}</Project>
-      <Name>PredictedPoints</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SOMPredictedPoints\SOMPredictedPoints.csproj">
-      <Project>{fa83d183-9999-4bd3-bd23-4448f8c10fb9}</Project>
-      <Name>SOMPredictedPoints</Name>
+    <ProjectReference Include="..\SOM_Kohonen\SOM_Kohonen.csproj">
+      <Project>{e8687901-201c-4775-981d-501ca1f4e1e5}</Project>
+      <Name>SOM_Kohonen</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
