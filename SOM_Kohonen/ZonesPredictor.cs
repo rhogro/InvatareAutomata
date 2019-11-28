@@ -14,54 +14,14 @@ namespace SOM_Kohonen
         public int J;
     }
 
-    public class Run
-    {
-        public int Index { get; set; }
-        public double Alpha { get; set; }
-        public double Vecinatate { get; set; }
-        public PointDouble[,] Position { get; set; }
-
-        public Run(int index, double alpha, double vecinatate, PointDouble[,] position)
-        {
-            Index = index;
-            Alpha = alpha;
-            Vecinatate = vecinatate;
-            int positionLength = (int) Math.Sqrt(position.Length);
-            Position = new PointDouble[positionLength, positionLength];
-            for (int i = 0; i < positionLength; i++)
-            {
-                for (int j = 0; j < positionLength; j++)
-                {
-                    Position[i, j] = new PointDouble(position[i, j].X, position[i, j].Y);
-                }
-            }
-        }
-    }
-
-    public class PointDouble
-    {
-        public double X { get; set; }
-        public double Y { get; set; }
-
-        public PointDouble(double x, double y)
-        {
-            X = x;
-            Y = y;
-        }
-
-        public override string ToString()
-        {
-            return "[" + X + ", " + Y + "]";
-        }
-    }
     public class ZonesPredictor
     {
         private const int SIZE = 10;
-        public PointDouble[,] W = new PointDouble[SIZE, SIZE];
+        public Point[,] W = new Point[SIZE, SIZE];
         private readonly StreamWriter _sw;
         private double Alpha;
         private double Vecinatate;
-        private const int RUNS = 10;
+        private const int RUNS = 20;
         public List<Run> Runs;
 
         public ZonesPredictor()
@@ -73,7 +33,7 @@ namespace SOM_Kohonen
             {
                 for (int j = 0; j < SIZE; j++)
                 {
-                    W[i, j] = new PointDouble(-400 + (800 / SIZE) * j + 400 / SIZE, 400 - (800 / SIZE) * i - 400 / SIZE);
+                    W[i, j] = new Point(-400 + (800 / SIZE) * j + 400 / SIZE, 400 - (800 / SIZE) * i - 400 / SIZE);
                 }
             }
 
@@ -82,7 +42,6 @@ namespace SOM_Kohonen
             Runs = new List<Run>();
             Runs.Add(new Run(0, 0, 0, W));
             //WriteToFile(0);
-            //_sw.Close();
         }
         public void Predict()
         {
@@ -109,7 +68,7 @@ namespace SOM_Kohonen
                 foreach (var point in points)
                 {
                     Position WinnerPosition = GetWinner(point);
-                    PointDouble winner = W[WinnerPosition.I, WinnerPosition.J];
+                    Point winner = W[WinnerPosition.I, WinnerPosition.J];
                     MoveWTowardsPoint(winner, point);
                     MoveNeighboursTowardsPoint(WinnerPosition, point);
                 }
@@ -163,7 +122,7 @@ namespace SOM_Kohonen
 
             //for (int i = (int)(pos.I - Vecinatate); i <= (int)(pos.I + Vecinatate); i++)
             //{
-            //    for (int j = (int) (pos.J - Vecinatate); j <= (int) (pos.J + Vecinatate); j++)
+            //    for (int j = (int)(pos.J - Vecinatate); j <= (int)(pos.J + Vecinatate); j++)
             //    {
             //        if (i < 0 || j < 0 || i >= SIZE || j >= SIZE) continue;
             //        MoveWTowardsPoint(W[i, j], point);
@@ -171,7 +130,7 @@ namespace SOM_Kohonen
             //}
         }
 
-        private void MoveWTowardsPoint(PointDouble winner, Point point)
+        private void MoveWTowardsPoint(Point winner, Point point)
         {
             winner.X = winner.X + Alpha * (point.X - winner.X);
             winner.Y = winner.Y + Alpha * (point.Y - winner.Y);
@@ -201,7 +160,7 @@ namespace SOM_Kohonen
             return position;
         }
 
-        private double ComputeDistance(PointDouble W, Point point)
+        private double ComputeDistance(Point W, Point point)
         {
             //euclidean distance
             return (Math.Sqrt(Math.Pow(Math.Abs(W.X - point.X), 2) + Math.Pow(Math.Abs(W.Y - point.Y), 2)));
