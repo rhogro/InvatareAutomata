@@ -14,7 +14,7 @@ using Point = System.Drawing.Point;
 
 namespace SOMPredictedPoints
 {
-    
+
     public partial class Form1 : Form
     {
         private ZonesPredictor zonesPredictor;
@@ -47,19 +47,6 @@ namespace SOMPredictedPoints
             dt.Columns.Add("Alpha", typeof(double));
             dt.Columns.Add("Vecinatate", typeof(double));
 
-            //StreamReader sr = new StreamReader(Directory.GetCurrentDirectory() + @"\" + "neurons.txt");
-            //string line;
-            //while ((line = sr.ReadLine()) != null)
-            //{
-            //    string[] strarr = line.Split(',');
-            //    dt.Rows.Add(strarr[0], strarr[1], strarr[2], strarr[3], strarr[4]);
-            //}
-            //sr.Close();
-
-            //chart1.DataSource = dt;
-
-
-
             AssignValuesToChart();
 
         }
@@ -69,70 +56,34 @@ namespace SOMPredictedPoints
             int neuronsNumber = zonesPredictor.Runs[run].Position.Length;
             int neuronsLength = (int)Math.Sqrt(neuronsNumber);
 
-            //List<Run> runList = new List<Run>();
-            //int r = 0;
-            //runList.Add(new Run(0,0,0, new Point[neuronsLength,neuronsLength]));
-            //int a = 0, b = 0;
-            //Point[,] points = new Point[neuronsLength,neuronsLength]; 
-            //foreach (DataRow row in dt.Rows)
-            //{
-            //    if (row.Field<int>("Run") == r)
-            //    {
-            //        points[a,b] = new Point(row.Field<int>("X_Value"), row.Field<int>("Y_Value"));
-            //        if (a == neuronsLength - 1)
-            //        {
-            //            a = 0;
-            //            b++;
-            //        }
-            //        else
-            //        {
-            //            a++;
-            //        }
-            //    }
-            //    else
-            //    {
-
-            //        runList.Find(x => x.Index == r).Position = points;
-            //        r++;
-            //        runList.Add(new Run(r, row.Field<double>("Alpha"), row.Field<double>("Vecinatate"), points));
-            //        points[0,0] = new Point(row.Field<int>("X_Value"), row.Field<int>("Y_Value"));
-            //        a = 1;
-            //        b = 0;
-            //    }
-            //}
-
-            //for (int i = 0; i < neuronsLength; i++)
-            //{
-            //    for (int j = 0; j < neuronsLength; j++)
-            //    {
-
-            //    }
-            //}
-
             for (int i = 0; i < neuronsLength; i++)
             {
-                chart1.Series.Add("NeuronsI" + i);
-                chart1.Series["NeuronsI" + i].ChartType = SeriesChartType.Line;
-                chart1.Series["NeuronsI" + i].IsVisibleInLegend = false;
+
 
                 for (int j = 0; j < neuronsLength; j++)
                 {
+                    if (i < neuronsLength - 1)
+                    {
+                        chart1.Series.Add("NeuronsI1" + i.ToString() + j.ToString());
+                        chart1.Series["NeuronsI1" + i.ToString() + j.ToString()].ChartType = SeriesChartType.Line;
+                        chart1.Series["NeuronsI1" + i.ToString() + j.ToString()].IsVisibleInLegend = false;
+                        chart1.Series["NeuronsI1" + i.ToString() + j.ToString()].Points
+                            .Add(new DataPoint(zonesPredictor.Runs[run].Position[i, j].X, zonesPredictor.Runs[run].Position[i, j].Y));
+                        chart1.Series["NeuronsI1" + i.ToString() + j.ToString()].Points
+                            .Add(new DataPoint(zonesPredictor.Runs[run].Position[i + 1, j].X, zonesPredictor.Runs[run].Position[i + 1, j].Y));
+                    }
 
-                    chart1.Series["NeuronsI" + i].Points
-                        .Add(new DataPoint(zonesPredictor.Runs[run].Position[i, j].X, zonesPredictor.Runs[run].Position[i, j].Y));
-                }
-            }
+                    if (j < neuronsLength - 1)
+                    {
+                        chart1.Series.Add("NeuronsI2" + i.ToString() + j.ToString());
+                        chart1.Series["NeuronsI2" + i.ToString() + j.ToString()].ChartType = SeriesChartType.Line;
+                        chart1.Series["NeuronsI2" + i.ToString() + j.ToString()].IsVisibleInLegend = false;
+                        chart1.Series["NeuronsI2" + i.ToString() + j.ToString()].Points
+                            .Add(new DataPoint(zonesPredictor.Runs[run].Position[i, j].X, zonesPredictor.Runs[run].Position[i, j].Y));
+                        chart1.Series["NeuronsI2" + i.ToString() + j.ToString()].Points
+                            .Add(new DataPoint(zonesPredictor.Runs[run].Position[i, j + 1].X, zonesPredictor.Runs[run].Position[i, j + 1].Y));
+                    }
 
-            for (int j = 0; j < neuronsLength; j++)
-            {
-                chart1.Series.Add("NeuronsJ" + j);
-                chart1.Series["NeuronsJ" + j].ChartType = SeriesChartType.Line;
-                chart1.Series["NeuronsJ" + j].IsVisibleInLegend = false;
-                for (int i = 0; i < neuronsLength; i++)
-                {
-
-                    chart1.Series["NeuronsJ" + j].Points
-                        .Add(new DataPoint(zonesPredictor.Runs[run].Position[i, j].X, zonesPredictor.Runs[run].Position[i, j].Y));
                 }
             }
         }

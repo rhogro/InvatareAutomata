@@ -21,7 +21,7 @@ namespace SOM_Kohonen
         private readonly StreamWriter _sw;
         private double Alpha;
         private double Vecinatate;
-        private const int RUNS = 20;
+        private const int RUNS = 5;
         public List<Run> Runs;
 
         public ZonesPredictor()

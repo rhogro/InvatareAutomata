@@ -99,6 +99,7 @@ namespace PredictedPoints
                 chart1.Series[centroid.Name + " Points"].ChartType = SeriesChartType.Point;
                 chart1.Series[centroid.Name + " Points"].MarkerStyle = MarkerStyle.Square;
                 chart1.Series[centroid.Name + " Points"].Color = zoneColors[centroid.Name];
+                chart1.Series[centroid.Name + " Points"].MarkerSize = 1;
 
                 chart1.Series.Add(centroid.Name);
                 chart1.Series[centroid.Name].ChartType = SeriesChartType.Point;
