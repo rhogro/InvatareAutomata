@@ -10,6 +10,8 @@ namespace NeuralNetwork_Run
     {
         static void Main(string[] args)
         {
+            NeuralNetwork_XOR.Computer neuralXOR = new NeuralNetwork_XOR.Computer();
+            neuralXOR.Compute();
         }
     }
 }

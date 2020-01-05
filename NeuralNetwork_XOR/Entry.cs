@@ -8,12 +8,14 @@ namespace NeuralNetwork_XOR
 {
     public class Entry<T>
     {
-        public Entry(T value, double weight)
+        public T Value { get; set; }
+        public List<double> Weights { get; set; }
+
+        public Entry(T value, List<double> weights)
         {
             Value = value;
-            Weight = weight;
+            Weights = weights.ConvertAll(w => new double());
         }
-        public T Value { get; set; }
-        public double Weight { get; set; }
+
     }
 }

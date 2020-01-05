@@ -10,9 +10,9 @@ namespace NeuralNetwork_XOR
     {
         public int X1 { get; set; }
         public int X2 { get; set; }
-        public int Result { get; set; }
+        public double Result { get; set; }
 
-        public XOR(int x1, int x2, int result)
+        public XOR(int x1, int x2, double result)
         {
             X1 = x1;
             X2 = x2;

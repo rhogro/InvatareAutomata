@@ -49,5 +49,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NeuralNetwork_XOR\NeuralNetwork_XOR.csproj">
+      <Project>{fc191e8a-234e-40af-858b-3bdc5ef2c272}</Project>
+      <Name>NeuralNetwork_XOR</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
