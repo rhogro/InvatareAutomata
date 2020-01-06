@@ -11,10 +11,9 @@ namespace NeuralNetwork_XOR
         public double Value { get; set; }
         public double Bias { get; set; }
 
-        private readonly Random _random = new Random();
-
         public Neuron()
         {
+            Random _random = new Random();
             Bias = _random.NextDouble();
         }
     }

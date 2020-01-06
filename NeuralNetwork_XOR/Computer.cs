@@ -9,20 +9,22 @@ namespace NeuralNetwork_XOR
     public class Computer
     {
         private List<XOR> XORs;
-        private const int HiddenLayerNumber = 5;
+        private const int HiddenLayerNumber = 2;
         private const int OutputLayerNumber = 1;
-        private List<Entry<int>> outsideEntries;
+        private const int OutsideEntriesNumber = 2;
+        private Entry<int>[] outsideEntries;
         private readonly Random _random;
         private readonly double _target = Math.Pow(10, -6); //-24
-        private double Error = 1;
         private Entry<Neuron>[] HiddenLayerNodes;
         private Neuron[] OutputNodes;
-        private double LearningRate = 0.7;
+        private double LearningRate = 1;
         private double AgeError = 1;
         private int Age = 1;
 
         public Computer()
         {
+            _random = new Random();
+
             XORs = new List<XOR>
             {
                 new XOR(0, 0, 0.1),
@@ -30,23 +32,38 @@ namespace NeuralNetwork_XOR
                 new XOR(1, 0, 0.9),
                 new XOR(1, 1, 0.1)
             };
-            outsideEntries = new List<Entry<int>>();
-            _random = new Random();
 
-            List<double> weights = new List<double>();
+            outsideEntries = new Entry<int>[OutsideEntriesNumber]; //x1 si x2
+
+            //ponderile intrarilor
+            List<double> entryWeights = new List<double>();
+            for (int i = 0; i < HiddenLayerNumber; i++)
+            {
+                entryWeights.Add(_random.NextDouble());
+            }
+            //fiecare intrare are cate (nr neuroni strat ascuns) ponderi
+            //nr total ponderi = nr intrari * nr neuroni din stratul ascuns
+            for(int i = 0; i < OutsideEntriesNumber; i++)
+            {
+                outsideEntries[i] = new Entry<int>(0, entryWeights);
+            }
+            
+            //ponderile neuronilor de pe stratul ascuns
+            List<double> hiddenLayerWeights = new List<double>();
             for (int j = 0; j < OutputLayerNumber; j++)
             {
-                weights.Add(0);
+                hiddenLayerWeights.Add(0);
             }
-
+            //fiecare neuron are cate (nr neuroni iesire) ponderi
+            //nr total ponderi = nr neuroni strat intermediar * nr neuroni iesire
             HiddenLayerNodes = new Entry<Neuron>[HiddenLayerNumber];
             for(int i = 0; i < HiddenLayerNumber; i++)
             {
-                HiddenLayerNodes[i] = new Entry<Neuron>(new Neuron(), weights);
+                HiddenLayerNodes[i] = new Entry<Neuron>(new Neuron(), hiddenLayerWeights);
             }
 
+            //neuroni iesire
             OutputNodes = new Neuron[OutputLayerNumber];
-
             for(int i = 0; i < OutputLayerNumber; i++)
             {
                 OutputNodes[i] = new Neuron();
@@ -61,31 +78,24 @@ namespace NeuralNetwork_XOR
                 foreach (var xor in XORs)
                 {
                     Console.WriteLine("Input [{0}, {1}]", xor.X1, xor.X2);
-                    List<double> entryWeights = new List<double>();
-                    for(int i = 0; i < HiddenLayerNumber; i++)
-                    {
-                        entryWeights.Add(_random.NextDouble());  
-                    }
-                     // 1. Feed Forward
-                    outsideEntries.Add(new Entry<int>(xor.X1, entryWeights)); //they're random, it doesn't matter if they are the same
-                    outsideEntries.Add(new Entry<int>(xor.X2, entryWeights));
 
+                    //atribuim intrararile
+                    outsideEntries[0].Value = xor.X1;
+                    outsideEntries[1].Value = xor.X2;
+
+                    // 1. Feed Forward
                     CalculateHiddenNodesValues();
 
                     CalculateOutputNodesValues();
 
-                    CalculateTotalError(xor.Result);
-
-                    AgeError += Error;
+                    AgeError += CalculateTotalError(xor.Result);
 
                     // 2. Backpropagation
+                    RecomputeOutputLayerBiases(xor.Result); // relatia (7)
+                    RecomputeHiddenLayerBiases(xor.Result); // relatia (9)
+                    RecomputeInputWeights(xor.Result); // relatia (10)
+                    RecomputeHiddenLayerWeights(xor.Result); // relatia (8)
 
-                    RecomputeOutputLayerBiases(xor.Result);
-                    RecomputeHiddenLayerWeights(xor.Result);
-                    RecomputeHiddenLayerBiases(xor.Result);
-                    RecomputeInputWeights(xor.Result);
-
-                    outsideEntries.Clear();
                 }
 
                 Console.WriteLine("Age {0}, error {1}", Age++, AgeError);
@@ -96,32 +106,31 @@ namespace NeuralNetwork_XOR
         }
 
         private void RecomputeInputWeights(double result)
-        {
-            foreach(Entry<int> input in outsideEntries)
+        {       // relatia (10)
+            for (int i = 0; i < OutsideEntriesNumber; i++)
             {
-                int i = 0;
-                foreach (Entry<Neuron> neuron in HiddenLayerNodes)
+                for(int h = 0; h < HiddenLayerNumber; h++)
                 {
                     double sum = 0;
-                    for (int j = 0; j < OutputLayerNumber; j++)
+                    for(int o = 0; o < OutputLayerNumber; o++)
                     {
-                        sum += (OutputNodes[j].Value - result) * FDerived(OutputNodes[j].Value) * neuron.Weights[j];
+                        sum += (OutputNodes[o].Value - result) * FDerived(OutputNodes[o].Value) * HiddenLayerNodes[h].Weights[o];
                     }
-                    double derivateVal = 2 * sum * FDerived(neuron.Value.Value) * input.Value;
-                    input.Weights[i] = input.Weights[i] - LearningRate * derivateVal;
-                    i++;
+                    double derivateVal = 2 * sum * FDerived(HiddenLayerNodes[h].Value.Value) * outsideEntries[i].Value;
+                    //ponderea dintre intrarea i catre neuronul ascuns j
+                    outsideEntries[i].Weights[h] = outsideEntries[i].Weights[h] - LearningRate * derivateVal;
                 }
             }
         }
 
         private void RecomputeHiddenLayerBiases(double result)
-        {
+        {       // relatia (9)
             foreach(Entry<Neuron> neuron in HiddenLayerNodes)
             {
                 double sum = 0;
-                for(int i = 0; i < OutputLayerNumber; i++)
+                for(int o = 0; o < OutputLayerNumber; o++)
                 {
-                    sum += (OutputNodes[i].Value - result) * FDerived(OutputNodes[i].Value) * neuron.Weights[i];
+                    sum += (OutputNodes[o].Value - result) * FDerived(OutputNodes[o].Value) * neuron.Weights[o];
                 }
                 double derivateVal = 2 * sum * FDerived(neuron.Value.Value);
                 neuron.Value.Bias = neuron.Value.Bias - LearningRate * derivateVal;
@@ -129,20 +138,19 @@ namespace NeuralNetwork_XOR
         }
 
         private void RecomputeHiddenLayerWeights(double result)
-        {
+        {       // relatia (8)
             foreach(Entry<Neuron> neuron in HiddenLayerNodes)
             {
-               
-                for(int i = 0; i < OutputLayerNumber; i++)
+                for(int o = 0; o < OutputLayerNumber; o++)
                 {
-                    double derivateVal = 2 * (OutputNodes[i].Value - result) * FDerived(OutputNodes[0].Value) * neuron.Value.Value;
-                    neuron.Weights[i] = neuron.Weights[i] - LearningRate * derivateVal;
+                    double derivateVal = 2 * (OutputNodes[o].Value - result) * FDerived(OutputNodes[0].Value) * neuron.Value.Value;
+                    neuron.Weights[o] = neuron.Weights[o] - LearningRate * derivateVal;
                 }
             }
         }
 
         private void RecomputeOutputLayerBiases(double result)
-        {
+        {   // relatia  (7)
             foreach(Neuron neuron in OutputNodes)
             {
                 double derivateVal = 2 * (neuron.Value - result) * FDerived(neuron.Value);
@@ -152,16 +160,19 @@ namespace NeuralNetwork_XOR
 
         private double FDerived(double value)
         {
-            return (1 / (1 + Math.Pow(Math.E, -value))) * (1 - 1 / (1 + Math.Pow(Math.E, -value)));
+            double ret;
+            ret = value * (1 - value);
+            return ret;
         }
 
-        private void CalculateTotalError(double realOutput)
+        private double CalculateTotalError(double realOutput)
         {
-            Error = 0;
+            double error = 0;
             for(int i = 0; i < OutputLayerNumber; i++)
             {
-                Error += Math.Pow(OutputNodes[i].Value - realOutput, 2);
+                error += Math.Pow(OutputNodes[i].Value - realOutput, 2);
             }
+            return error;
         }
 
         private void CalculateOutputNodesValues()
@@ -171,29 +182,35 @@ namespace NeuralNetwork_XOR
                 double sum = 0;
                 for (int j = 0; j < HiddenLayerNumber; j++)
                 {
+                    //pentru fiecare neuron de iesire
+                    //insumam produsul valorilor neuronilor din stratul ascuns 
+                    //cu ponderile stratului ascuns referitoare la nodul de iesire curent
                     sum += HiddenLayerNodes[j].Value.Value * HiddenLayerNodes[j].Weights[i];
                 }
+                //valoarea este suma dintre suma si prag
                 OutputNodes[i].Value = sum + OutputNodes[i].Bias;
+                //valoarea e rezultatul functiei de activare in functie de rezultatul obtinut anterior
+                OutputNodes[i].Value = 1 / (1 + Math.Exp(-OutputNodes[i].Value));
                 Console.WriteLine("Output: {0}", OutputNodes[i].Value);
             }
         }
 
         private void CalculateHiddenNodesValues()
         {
-            for (int i = 0; i < HiddenLayerNumber; i++)
+            for (int h = 0; h < HiddenLayerNumber; h++)
             {
-                int j = 0;
                 double sum = 0;
-                foreach (var entry in outsideEntries)
+                for (int i=0;i<OutsideEntriesNumber;i++)
                 {
-                    sum = entry.Value * entry.Weights[j++];
+                    //pentru fiecare neuron din stratul ascuns
+                    //insumam produsul valorilor tuturor intrarilor
+                    //cu ponderile intrarilor referitoare la nodul ascuns curent
+                    sum += outsideEntries[i].Value * outsideEntries[i].Weights[h];
                 }
-                HiddenLayerNodes[i].Value.Value = sum + HiddenLayerNodes[i].Value.Bias;
-                HiddenLayerNodes[i].Value.Value = 1 / (1 + Math.Pow(Math.E, -HiddenLayerNodes[i].Value.Value));
-                for(int k = 0; k < OutputLayerNumber; k++)
-                {
-                    HiddenLayerNodes[i].Weights[k] = _random.NextDouble();
-                }
+                //valoarea neuronului ascuns e suma dintre suma si prag
+                HiddenLayerNodes[h].Value.Value = sum + HiddenLayerNodes[h].Value.Bias;
+                //valoarea e rezultatul functiei de activare in functie de valoarea obtinuta anterior
+                HiddenLayerNodes[h].Value.Value = 1 / (1 + Math.Exp(-HiddenLayerNodes[h].Value.Value));
             }
         }
     }
