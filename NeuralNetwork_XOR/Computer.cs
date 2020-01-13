@@ -14,7 +14,7 @@ namespace NeuralNetwork_XOR
         private const int OutsideEntriesNumber = 2;
         private Entry<int>[] outsideEntries;
         private readonly Random _random;
-        private readonly double _target = Math.Pow(10, -6); //-24
+        private readonly double _target = Math.Pow(10, -11); //-24
         private Entry<Neuron>[] HiddenLayerNodes;
         private Neuron[] OutputNodes;
         private double LearningRate = 1;
@@ -36,10 +36,10 @@ namespace NeuralNetwork_XOR
             outsideEntries = new Entry<int>[OutsideEntriesNumber]; //x1 si x2
 
             //ponderile intrarilor
-            List<double> entryWeights = new List<double>();
+            double[] entryWeights = new double[HiddenLayerNumber];
             for (int i = 0; i < HiddenLayerNumber; i++)
             {
-                entryWeights.Add(_random.NextDouble());
+                entryWeights[i] = _random.NextDouble();
             }
             //fiecare intrare are cate (nr neuroni strat ascuns) ponderi
             //nr total ponderi = nr intrari * nr neuroni din stratul ascuns
@@ -49,10 +49,10 @@ namespace NeuralNetwork_XOR
             }
             
             //ponderile neuronilor de pe stratul ascuns
-            List<double> hiddenLayerWeights = new List<double>();
+            double[] hiddenLayerWeights = new double[OutputLayerNumber];
             for (int j = 0; j < OutputLayerNumber; j++)
             {
-                hiddenLayerWeights.Add(0);
+                hiddenLayerWeights[j] = _random.NextDouble();
             }
             //fiecare neuron are cate (nr neuroni iesire) ponderi
             //nr total ponderi = nr neuroni strat intermediar * nr neuroni iesire

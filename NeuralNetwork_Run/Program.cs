@@ -12,6 +12,7 @@ namespace NeuralNetwork_Run
         {
             NeuralNetwork_XOR.Computer neuralXOR = new NeuralNetwork_XOR.Computer();
             neuralXOR.Compute();
+            Console.ReadKey();
         }
     }
 }

@@ -9,12 +9,16 @@ namespace NeuralNetwork_XOR
     public class Entry<T>
     {
         public T Value { get; set; }
-        public List<double> Weights { get; set; }
+        public double[] Weights { get; set; }
 
-        public Entry(T value, List<double> weights)
+        public Entry(T value, double[] weights)
         {
             Value = value;
-            Weights = weights.ConvertAll(w => new double());
+            Weights = new double[weights.Length];
+            for(int i = 0; i < weights.Length; i++)
+            {
+                Weights[i] = weights[i];
+            }
         }
 
     }
