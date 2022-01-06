@@ -81,8 +81,8 @@ namespace PointsGenerator
         {
             //double r = _random.NextDouble() * (maximum - minimum) + minimum;
             //return r;
-            int r = _random.Next(0, 60001);
-            double ret = r / 60000.0;
+            int r = _random.Next(0, 20001);
+            double ret = r / 20000.0;
             return ret;
         }
 

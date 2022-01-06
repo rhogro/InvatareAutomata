@@ -50,6 +50,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NeuralNetwork_Points\NeuralNetwork_Points.csproj">
+      <Project>{8b252c68-0e0d-4d36-96e9-d0f9cedf5ee6}</Project>
+      <Name>NeuralNetwork_Points</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NeuralNetwork_XOR\NeuralNetwork_XOR.csproj">
       <Project>{fc191e8a-234e-40af-858b-3bdc5ef2c272}</Project>
       <Name>NeuralNetwork_XOR</Name>

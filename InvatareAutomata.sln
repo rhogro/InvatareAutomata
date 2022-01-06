@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork_Run", "Neural
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork_XOR", "NeuralNetwork_XOR\NeuralNetwork_XOR.csproj", "{FC191E8A-234E-40AF-858B-3BDC5EF2C272}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork_Points", "NeuralNetwork_Points\NeuralNetwork_Points.csproj", "{8B252C68-0E0D-4D36-96E9-D0F9CEDF5EE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralPredictedPoints", "NeuralPredictedPoints\NeuralPredictedPoints.csproj", "{9F6BE3F4-0083-4DDB-AF73-E499C514BEFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +61,14 @@ Global
 		{FC191E8A-234E-40AF-858B-3BDC5EF2C272}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC191E8A-234E-40AF-858B-3BDC5EF2C272}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC191E8A-234E-40AF-858B-3BDC5EF2C272}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B252C68-0E0D-4D36-96E9-D0F9CEDF5EE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B252C68-0E0D-4D36-96E9-D0F9CEDF5EE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B252C68-0E0D-4D36-96E9-D0F9CEDF5EE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B252C68-0E0D-4D36-96E9-D0F9CEDF5EE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F6BE3F4-0083-4DDB-AF73-E499C514BEFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F6BE3F4-0083-4DDB-AF73-E499C514BEFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F6BE3F4-0083-4DDB-AF73-E499C514BEFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F6BE3F4-0083-4DDB-AF73-E499C514BEFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

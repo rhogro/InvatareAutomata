@@ -133,8 +133,14 @@ namespace Chart
 
         private void SOMPredictButton_Click(object sender, EventArgs e)
         {
-            SOMPredictedPoints.Form1  SOMPredictedPointsForm = new SOMPredictedPoints.Form1();
+            SOMPredictedPoints.Form1 SOMPredictedPointsForm = new SOMPredictedPoints.Form1();
             SOMPredictedPointsForm.Show();
+        }
+
+        private void neuralPredictButton_Click(object sender, EventArgs e)
+        {
+            NeuralPredictedPoints.Form1 neuralForm = new NeuralPredictedPoints.Form1();
+            neuralForm.Show();
         }
     }
 }

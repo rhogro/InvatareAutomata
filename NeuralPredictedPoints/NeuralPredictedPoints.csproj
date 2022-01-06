@@ -4,14 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5048B9DC-D273-4D23-87F9-00B90F342C06}</ProjectGuid>
+    <ProjectGuid>{9F6BE3F4-0083-4DDB-AF73-E499C514BEFD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Chart</RootNamespace>
-    <AssemblyName>Chart</AssemblyName>
+    <RootNamespace>NeuralPredictedPoints</RootNamespace>
+    <AssemblyName>NeuralPredictedPoints</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -66,6 +67,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -81,21 +83,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NeuralPredictedPoints\NeuralPredictedPoints.csproj">
-      <Project>{9f6be3f4-0083-4ddb-af73-e499c514befd}</Project>
-      <Name>NeuralPredictedPoints</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PointsGenerator\PointsGenerator.csproj">
-      <Project>{66a7ff9f-5ebd-41fa-be13-d69cb7b2b92f}</Project>
-      <Name>PointsGenerator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PredictedPoints\PredictedPoints.csproj">
-      <Project>{ed0fd432-783c-476f-b6c1-60aca3dc2e05}</Project>
-      <Name>PredictedPoints</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SOMPredictedPoints\SOMPredictedPoints.csproj">
-      <Project>{fa83d183-9999-4bd3-bd23-4448f8c10fb9}</Project>
-      <Name>SOMPredictedPoints</Name>
+    <ProjectReference Include="..\NeuralNetwork_Points\NeuralNetwork_Points.csproj">
+      <Project>{8b252c68-0e0d-4d36-96e9-d0f9cedf5ee6}</Project>
+      <Name>NeuralNetwork_Points</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

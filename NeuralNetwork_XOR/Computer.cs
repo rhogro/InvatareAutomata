@@ -14,7 +14,8 @@ namespace NeuralNetwork_XOR
         private const int OutsideEntriesNumber = 2;
         private Entry<int>[] outsideEntries;
         private readonly Random _random;
-        private readonly double _target = Math.Pow(10, -11); //-24
+        private readonly double _target = Math.Pow(10, -24); //-24
+        private readonly int _maxAge = 10000;
         private Entry<Neuron>[] HiddenLayerNodes;
         private Neuron[] OutputNodes;
         private double LearningRate = 1;
@@ -72,12 +73,12 @@ namespace NeuralNetwork_XOR
 
         public void Compute()
         {
-            while (AgeError > _target)
+            while (AgeError > _target || Age > _maxAge)
             {
                 AgeError = 0;
                 foreach (var xor in XORs)
                 {
-                    Console.WriteLine("Input [{0}, {1}]", xor.X1, xor.X2);
+                    //Console.WriteLine("Input [{0}, {1}]", xor.X1, xor.X2);
 
                     //atribuim intrararile
                     outsideEntries[0].Value = xor.X1;
@@ -97,11 +98,12 @@ namespace NeuralNetwork_XOR
                     RecomputeHiddenLayerWeights(xor.Result); // relatia (8)
 
                 }
-
-                Console.WriteLine("Age {0}, error {1}", Age++, AgeError);
+                Age++;
+                //Console.WriteLine("Age {0}, error {1}", Age, AgeError);
 
                 //end of era
             }
+            Console.WriteLine("Age {0}, error {1}", Age, AgeError);
 
         }
 
@@ -191,7 +193,7 @@ namespace NeuralNetwork_XOR
                 OutputNodes[i].Value = sum + OutputNodes[i].Bias;
                 //valoarea e rezultatul functiei de activare in functie de rezultatul obtinut anterior
                 OutputNodes[i].Value = 1 / (1 + Math.Exp(-OutputNodes[i].Value));
-                Console.WriteLine("Output: {0}", OutputNodes[i].Value);
+                //Console.WriteLine("Output: {0}", OutputNodes[i].Value);
             }
         }
 

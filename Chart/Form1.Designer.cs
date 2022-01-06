@@ -33,8 +33,9 @@
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.predict = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.SOMPredictButton = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.neuralPredictButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -66,6 +67,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.neuralPredictButton);
             this.panel1.Controls.Add(this.SOMPredictButton);
             this.panel1.Controls.Add(this.predict);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -73,15 +75,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(794, 31);
             this.panel1.TabIndex = 2;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.chart1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 31);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(794, 718);
-            this.panel2.TabIndex = 3;
             // 
             // SOMPredictButton
             // 
@@ -92,6 +85,25 @@
             this.SOMPredictButton.Text = "Predict SOM";
             this.SOMPredictButton.UseVisualStyleBackColor = true;
             this.SOMPredictButton.Click += new System.EventHandler(this.SOMPredictButton_Click);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.chart1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 31);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(794, 718);
+            this.panel2.TabIndex = 3;
+            // 
+            // neuralPredictButton
+            // 
+            this.neuralPredictButton.Location = new System.Drawing.Point(236, 3);
+            this.neuralPredictButton.Name = "neuralPredictButton";
+            this.neuralPredictButton.Size = new System.Drawing.Size(134, 23);
+            this.neuralPredictButton.TabIndex = 3;
+            this.neuralPredictButton.Text = "Predict Neural Network";
+            this.neuralPredictButton.UseVisualStyleBackColor = true;
+            this.neuralPredictButton.Click += new System.EventHandler(this.neuralPredictButton_Click);
             // 
             // Form1
             // 
@@ -116,6 +128,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button SOMPredictButton;
+        private System.Windows.Forms.Button neuralPredictButton;
     }
 }
 

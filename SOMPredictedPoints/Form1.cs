@@ -48,7 +48,6 @@ namespace SOMPredictedPoints
             dt.Columns.Add("Vecinatate", typeof(double));
 
             AssignValuesToChart();
-
         }
 
         private void AssignValuesToChart()
